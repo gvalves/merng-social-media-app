@@ -4,12 +4,34 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "sucrase-node index.js"
+    "start": "sucrase-node index.js",
+    "dev": "nodemon -x sucrase-node index.ts",
+    "commit": "git-cz"
   },
   "dependencies": {
     "apollo-server": "^2.19.2",
     "graphql": "^15.4.0",
     "mongoose": "^5.11.13",
     "sucrase": "^3.17.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "commitizen": "^4.2.2",
+    "cz-conventional-changelog": "3.3.0",
+    "husky": "^4.3.6",
+    "nodemon": "^2.0.6",
+    "sucrase": "^3.16.0",
+    "typescript": "^4.1.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
