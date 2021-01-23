@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
 const postSchema = new Schema({
   body: String,
@@ -19,8 +19,10 @@ const postSchema = new Schema({
   ],
   user: {
     type: Schema.Types.ObjectId,
-    ref: "users",
+    ref: 'users',
   },
-});
+})
 
-export default model("Post", postSchema);
+const Post = model('Post', postSchema)
+
+export { Post }
