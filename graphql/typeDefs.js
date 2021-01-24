@@ -3,11 +3,15 @@ import { gql } from 'apollo-server'
 const typeDefs = gql`
   type Query {
     posts: [Post!]!
+    post(postId: ID!): Post
   }
 
   type Mutation {
     register(registerInput: RegisterInput!): User!
     login(username: String!, password: String!): User!
+    createPost(body: String!): Post!
+    deletePost(postId: ID!): Post
+    deletePosts: [Post!]!
   }
 
   input RegisterInput {

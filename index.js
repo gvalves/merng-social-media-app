@@ -6,7 +6,11 @@ import { MONGODB } from './config'
 import { typeDefs } from './graphql/typeDefs'
 import { resolvers } from './graphql/resolvers'
 
-const server = new ApolloServer({ typeDefs, resolvers })
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => ({ req }),
+})
 const port = 5000
 
 mongoose
