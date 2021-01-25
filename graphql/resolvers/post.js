@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server'
+import { AuthenticationError, UserInputError } from 'apollo-server'
 import { Post } from '../../models/Post'
 import { checkAuth } from '../../util/check-auth'
 
@@ -36,6 +36,13 @@ const postResolvers = {
       })
 
       const post = await newPost.save()
+
+      context.pubsub.publish('NEW_POST', {
+        newPost: post,
+      })
+
+      console.log(post)
+
       return post
     },
     async deletePost(_, { postId }, context) {
@@ -61,6 +68,33 @@ const postResolvers = {
         await post.delete()
       }
       return posts
+    },
+    async likePost(_, { postId }, context) {
+      const { username } = checkAuth(context)
+      const post = await Post.findById(postId)
+
+      if (!post) {
+        throw new UserInputError('Post not found')
+      }
+      if (post.likes.some((like) => like.username === username)) {
+        // unlike if user already liked it
+        post.likes = post.likes.filter((like) => like.username !== username)
+      } else {
+        // like post if user not liked it
+        post.likes.push({
+          username,
+          createdAt: new Date().toISOString(),
+        })
+      }
+      await post.save()
+      return post
+    },
+  },
+  Subscription: {
+    newPost: {
+      subscribe(_, __, { pubsub }) {
+        return pubsub.asyncIterator('NEW_POST')
+      },
     },
   },
 }
