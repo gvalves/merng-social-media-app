@@ -4,8 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "sucrase-node index.js",
-    "dev": "nodemon -x sucrase-node index.js",
+    "client:start": "cd client && yarn start",
+    "server:start": "sucrase-node index.js",
+    "server:dev": "nodemon -x sucrase-node index.js",
     "commit": "git-cz"
   },
   "dependencies": {
